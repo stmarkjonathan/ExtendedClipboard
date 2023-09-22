@@ -1,0 +1,123 @@
+﻿<Window x:Class="ExtendedClipboard.ClipboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExtendedClipboard"
+        x:Name="ClipboardDisplay"
+        Style="{StaticResource ClipboardWindow}"
+        mc:Ignorable="d"
+        Loaded="ClipboardDisplay_Loaded"
+        Closing="ClipboardDisplay_Closing"
+        Title="ClipboardWindow" Height="550" Width="375">
+    <Border 
+        x:Name="windowBorder" 
+        Background="{StaticResource BackgroundGray}" 
+        BorderBrush="Transparent" 
+        BorderThickness="0,1,0,0" 
+        CornerRadius="15,15,0,0">
+        <DockPanel>
+            <Grid DockPanel.Dock="Top" Height="75">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="settingsButton" 
+                    Content="Settings"
+                    Style="{StaticResource SettingsButton}"/>
+
+                <Button x:Name="minimizeButton" 
+                    Grid.Column="2"
+                    Content="X"
+                    Click="minimizeButton_Click"
+                    ToolTip="Minimize"
+                    Style="{StaticResource MinimizeButton}"/>
+
+                <Button x:Name="clearButton" 
+                    Click="clearButton_Click"
+                    Grid.Row="1" 
+                    Content="Clear all clipboards"
+                    Grid.ColumnSpan="3"/>
+            </Grid>
+
+            <Button 
+            DockPanel.Dock="Bottom"
+            Style="{StaticResource AddButton}"
+            Content="Add a new clipboard"               
+            Command="{Binding AddCommand, Mode=OneWay}"/>
+            
+            <ListBox 
+            x:Name="clipboardList" 
+            d:ItemsSource="{d:SampleData ItemCount=5}" 
+            ItemsSource="{Binding Clipboards, Mode=OneWay}"
+            SelectedItem="{Binding SelectedClipboard, Mode=TwoWay}"
+            HorizontalContentAlignment="Stretch"
+            Background="{StaticResource BackgroundGray}"
+            ScrollViewer.CanContentScroll="false"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            MaxWidth="500" SelectionChanged="clipboardList_SelectionChanged" Height="Auto">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="5" BorderBrush="{StaticResource BorderGray}" BorderThickness="3">
+                            <Grid Height="134" MaxWidth="500">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="5*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBox x:Name="titleTextBox" 
+                                     Grid.Row="0" 
+                                     Style="{StaticResource ClipboardTitle}" 
+                                     BorderBrush="{StaticResource BorderGray}" 
+                                     Background="Transparent"
+                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                     Grid.ColumnSpan="3"/>
+                                <TextBlock x:Name="descTextBlock" 
+                                       Grid.Row="1" 
+                                       Style="{StaticResource ClipboardText}" 
+                                       Text="{Binding Desc, Mode=OneWay}" 
+                                       Grid.ColumnSpan="3"/>
+
+                                <Button x:Name="saveButton" Grid.Row="2" 
+                                    Style="{StaticResource SaveButton}" 
+                                    ToolTip="Save data from clipboard"
+                                    Command="{Binding DataContext.CopyCommand, ElementName=clipboardList, Mode=OneWay}" 
+                                    CommandParameter="{Binding}" 
+                                    Content="Save"/>
+
+                                <Button x:Name="retrieveButton" 
+                                    Grid.Row="2" Grid.Column="1" 
+                                    Style="{StaticResource RetrieveButton}"
+                                    ToolTip="Send data to clipboard"
+                                    Command="{Binding DataContext.RetrieveCommand, ElementName=clipboardList, Mode=OneWay}" 
+                                    CommandParameter="{Binding}" 
+                                    Content="Retrieve"></Button>
+
+                                <Button x:Name="deleteButton" 
+                                    Grid.Row="2" Grid.Column="2" 
+                                    Style="{StaticResource DeleteButton}" 
+                                    ToolTip="Delete clipboard"
+                                    Command="{Binding DataContext.DeleteCommand, ElementName=clipboardList, Mode=OneWay}" 
+                                    CommandParameter="{Binding}"
+                                    BorderThickness="2,2,0,0"
+                                    Content="Delete"></Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+    </Border>
+</Window>
