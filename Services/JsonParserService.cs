@@ -20,22 +20,12 @@ namespace ExtendedClipboard.Services
         };
         public ObservableCollection<ClipboardClass> ParseJson(ObservableCollection<ClipboardClass> clipList)
         {
-            List<ClipboardClass> clipboards = new List<ClipboardClass>();
             string clipboardFile = @"C:\ExtendedClipboard\clipboards.txt";
             string jsonString = File.ReadAllText(clipboardFile);
 
-            try
-            {
-                clipboards = JsonSerializer.Deserialize<List<ClipboardClass>>(jsonString, _options);
-            }
-            catch (Exception)
-            {
-                //error with file occured, clear file
-                File.WriteAllText(clipboardFile, "[]");
-            }
-
+             var clipboards = JsonSerializer.Deserialize<List<ClipboardClass>>(jsonString, _options);
             
-            if (clipboards != null)
+            if(clipboards != null)
             {
                 foreach(var clipboard in clipboards)
                 {
