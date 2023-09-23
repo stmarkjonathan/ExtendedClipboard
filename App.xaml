@@ -8,10 +8,6 @@
         <SolidColorBrush x:Key="BorderGray" Color="#444447"/>
         <SolidColorBrush x:Key="MouseOverColour" Color="#444447" Opacity="0.5"/>
 
-
-
-
-
         <!-- Window-->
         <Style TargetType="Window"
                x:Key="ClipboardWindow">

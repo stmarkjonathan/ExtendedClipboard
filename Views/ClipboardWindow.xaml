@@ -51,7 +51,7 @@
             Style="{StaticResource AddButton}"
             Content="Add a new clipboard"               
             Command="{Binding AddCommand, Mode=OneWay}"/>
-            
+
             <ListBox 
             x:Name="clipboardList" 
             d:ItemsSource="{d:SampleData ItemCount=5}" 
@@ -76,7 +76,7 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <TextBox x:Name="titleTextBox" 
                                      Grid.Row="0" 
                                      Style="{StaticResource ClipboardTitle}" 
