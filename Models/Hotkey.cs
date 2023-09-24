@@ -44,13 +44,13 @@ namespace ExtendedClipboard.Models
             if(message == WM_HOTKEY)
             {
 
-                if (window.WindowState == WindowState.Normal)
+                if (window.Visibility == Visibility.Visible)
                 {
-                    window.WindowState = WindowState.Minimized;
+                    window.Visibility = Visibility.Hidden;
                 }
                 else
                 {
-                    window.WindowState = WindowState.Normal;
+                    window.Visibility = Visibility.Visible;
                 }
                 
                 handled = true;

@@ -25,6 +25,7 @@ namespace ExtendedClipboard
             DataContext = ViewModel = new ClipboardWindowViewModel();
         }
 
+
         private void clipboardList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             clipboardList.ScrollIntoView(clipboardList.SelectedItem);
@@ -33,15 +34,17 @@ namespace ExtendedClipboard
         private void minimizeButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.SaveToJson();
-            WindowState = WindowState.Minimized;
+            Visibility = Visibility.Hidden;
         }
 
         private void clearButton_Click(object sender, RoutedEventArgs e)
         {
             ClearConfirmationWindow newWindow = new ClearConfirmationWindow();
+            BlurEffect blur = new BlurEffect();
+
             newWindow.Owner = this;
             newWindow.DataContext = this.DataContext;
-            BlurEffect blur = new BlurEffect();
+
             blur.Radius = 5;
             Effect = blur;
 
@@ -57,6 +60,23 @@ namespace ExtendedClipboard
         {
             Hotkey.InstantiateHotKey(new WindowInteropHelper(this).Handle);
             Hotkey.window = this;
+        }
+
+        private void exitButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void toggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                Visibility = Visibility.Visible;
+            }
         }
     }
 }

@@ -52,6 +52,18 @@
             Content="Add a new clipboard"               
             Command="{Binding AddCommand, Mode=OneWay}"/>
 
+            <tb:TaskbarIcon x:Name="taskbarMenu"
+                            IconSource="/Resources/Icons/clipboard.ico">
+                
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="toggleButton" Header="Toggle Visibility" Click="toggleButton_Click"></MenuItem>
+                        <MenuItem x:Name="exitButton" Header="Exit" Click="exitButton_Click"></MenuItem>
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+                
+            </tb:TaskbarIcon>
+
             <ListBox 
             x:Name="clipboardList" 
             d:ItemsSource="{d:SampleData ItemCount=5}" 
