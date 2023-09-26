@@ -18,29 +18,37 @@ namespace ExtendedClipboard.Services
         {
             PropertyNameCaseInsensitive = true,
         };
+
         public ObservableCollection<ClipboardClass> ParseJson(ObservableCollection<ClipboardClass> clipList)
         {
             List<ClipboardClass> clipboards = new List<ClipboardClass>();
             string clipboardFile = @"C:\ExtendedClipboard\clipboards.txt";
-            string jsonString = File.ReadAllText(clipboardFile);
 
-            try
+            if (File.Exists(clipboardFile))
             {
-                clipboards = JsonSerializer.Deserialize<List<ClipboardClass>>(jsonString, _options);
-            }
-            catch (Exception)
-            {
-                //error found with clipboards.txt format, clear text file
-                File.WriteAllText(clipboardFile, "[]");
-            }
+                File.SetAttributes(clipboardFile, FileAttributes.Normal);
 
+                string jsonString = File.ReadAllText(clipboardFile);
 
-            if (clipboards != null)
-            {
-                foreach (var clipboard in clipboards)
+                try
                 {
-                    clipList.Add(clipboard);
+                    clipboards = JsonSerializer.Deserialize<List<ClipboardClass>>(jsonString, _options);
+
+                    if (clipboards != null)
+                    {
+                        foreach (var clipboard in clipboards)
+                        {
+                            clipList.Add(clipboard);
+                        }
+                    }
                 }
+                catch(Exception e)
+                {
+                    File.WriteAllText(clipboardFile, "[]");
+                }
+
+                File.SetAttributes(clipboardFile, FileAttributes.ReadOnly);
+
             }
 
             return clipList;
@@ -48,4 +56,4 @@ namespace ExtendedClipboard.Services
         }
 
     }
-} 
+}

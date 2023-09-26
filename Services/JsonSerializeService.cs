@@ -42,7 +42,20 @@ namespace ExtendedClipboard.Services
             Directory.CreateDirectory(directory);
             string path = System.IO.Path.Combine(directory, "clipboards.txt");
             var result = JsonSerializer.SerializeToUtf8Bytes(ClipboardList, _options);
-            File.WriteAllBytes(path, result);
+
+            if(File.Exists(path))
+            {
+                File.SetAttributes(path, FileAttributes.Normal);
+                File.WriteAllBytes(path, result);
+                File.SetAttributes(path, FileAttributes.ReadOnly);
+            }
+            else
+            {
+                File.WriteAllBytes(path, result);
+                File.SetAttributes(path, FileAttributes.ReadOnly);
+            }
+
+
         }
 
         
