@@ -10,12 +10,14 @@ using System.ComponentModel;
 using ExtendedClipboard.Services.Commands;
 using ExtendedClipboard.Services;
 using System.Diagnostics;
+using System.Windows.Input;
+using System.Windows.Media.Animation;
+using System.Reflection.PortableExecutable;
 
 namespace ExtendedClipboard.ViewModels
 {
     public class ClipboardWindowViewModel : INotifyPropertyChanged
     {
-        private Hotkey hotkey;
 
         private ObservableCollection<ClipboardClass>? _clipboards;
         public ObservableCollection<ClipboardClass> Clipboards
@@ -49,6 +51,15 @@ namespace ExtendedClipboard.ViewModels
             }
         }
 
+
+        public List<Hotkey> Hotkeys;
+
+        public enum HotkeyOptions
+        {
+            ToggleVisibility = 0,
+            Test = 1
+        }
+
         private JsonSerializeService _jsonSerialize = new JsonSerializeService();
         private JsonParserService _jsonParse = new JsonParserService();
         public RelayCommand AddCommand => new RelayCommand(execute => AddClipboard());
@@ -70,6 +81,7 @@ namespace ExtendedClipboard.ViewModels
         public ClipboardWindowViewModel()
         {
            Clipboards = _jsonParse.ParseJson(Clipboards);
+            
         }
 
         private void CopyFromClipboard(ClipboardClass listItem)
@@ -129,7 +141,23 @@ namespace ExtendedClipboard.ViewModels
                 _jsonSerialize.SerializeData();
             
         }
-        
+
+
+        public void ChangeHotkey(int modifier, int pressedKey, string action)
+        {
+
+
+            switch (Enum.Parse(typeof(HotkeyOptions), action))
+            {
+                case HotkeyOptions.ToggleVisibility:
+                    {
+                        Hotkeys[0].ChangeBind((int)HotkeyOptions.ToggleVisibility, modifier, pressedKey);
+                        Debug.Write(pressedKey);
+                        break;
+                    }
+            }
+        }
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

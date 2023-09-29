@@ -1,9 +1,11 @@
 ﻿using ExtendedClipboard.Models;
 using ExtendedClipboard.ViewModels;
 using ExtendedClipboard.Views;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Effects;
 
@@ -16,6 +18,7 @@ namespace ExtendedClipboard
     {
 
         ClipboardWindowViewModel ViewModel;
+
         public ClipboardWindow()
         {
             InitializeComponent();
@@ -56,12 +59,6 @@ namespace ExtendedClipboard
             ViewModel.SaveToJson();
         }
 
-        private void ClipboardDisplay_Loaded(object sender, RoutedEventArgs e)
-        {
-            Hotkey.InstantiateHotKey(new WindowInteropHelper(this).Handle);
-            Hotkey.window = this;
-        }
-
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -77,6 +74,24 @@ namespace ExtendedClipboard
             {
                 Visibility = Visibility.Visible;
             }
+        }
+
+        private void settingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsMenu newWindow = new SettingsMenu(ViewModel);
+            newWindow.Owner = this;
+            
+            newWindow.ShowDialog();
+
+        }
+
+        private void ClipboardDisplay_Loaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Hotkeys = new List<Hotkey>
+            {
+                new Hotkey(this, (int)ModifierKeys.Control, 0x78),
+                new Hotkey(this, 0, 0)
+            };
         }
     }
 }

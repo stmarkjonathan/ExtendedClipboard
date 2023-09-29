@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace ExtendedClipboard.Models
 {
     public class Hotkey
     {
-        public const int MOD_ALT = 0x1;
-        public const int MOD_CTRL = 0x2;
-        public const int MOD_SHIFT = 0x4;
-        public const int MOD_WIN = 0x8;
-        public static Window window;
+        public enum HotkeyOptions
+        {
+            ToggleVisibility = 0,
+            SwapMonitor = 1
+                
+        }
 
         private const int WM_HOTKEY = 0x312;
-
-        private static int hotkeyId = 0;
-        private static HwndSource source;
-
+        private static int hotkeyID = 0;
+        private Window _window;
+        private HwndSource _source;
+        private IntPtr _windowHandle;
 
         [DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
@@ -30,34 +33,68 @@ namespace ExtendedClipboard.Models
         [DllImport("user32.dll")]
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-        public static void InstantiateHotKey(IntPtr handle)
+        public Hotkey(Window window)
         {
-            source = HwndSource.FromHwnd(handle);
-            source.AddHook(HwndHook);
+            _window = window;
+            _windowHandle = new WindowInteropHelper(window).Handle;
+            _source = HwndSource.FromHwnd(_windowHandle);
+            _source.AddHook(HwndHook);
+            RegisterHotKey(_windowHandle, hotkeyID, 0, 0);
 
-            //0x79 = F9 Key
-            RegisterHotKey(handle, hotkeyId, MOD_CTRL, 0x78);
+            hotkeyID++;
         }
 
-        private static IntPtr HwndHook(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+        public Hotkey(Window window, int modifier, int key)
+        {
+            _window = window;
+            _windowHandle = new WindowInteropHelper(window).Handle;
+            _source = HwndSource.FromHwnd(_windowHandle);
+            _source.AddHook(HwndHook);
+            RegisterHotKey(_windowHandle, hotkeyID, modifier, key);
+            hotkeyID++;
+        }
+
+        public void ChangeBind(int id, int modifier, int key)
+        {
+            UnregisterHotKey(_windowHandle, id);
+
+            RegisterHotKey(_windowHandle, id, modifier, key);
+        }
+                
+
+
+        private IntPtr HwndHook(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if(message == WM_HOTKEY)
             {
+                Debug.Write("hotkey pressed");
+                switch (wParam.ToInt32())
+                {
+                    case (int)HotkeyOptions.ToggleVisibility:
+                        {
+                            if (_window.Visibility == Visibility.Visible)
+                            {
+                                _window.Visibility = Visibility.Hidden;
+                            }
+                            else
+                            {
+                                _window.Visibility = Visibility.Visible;
+                            }
+                            break;
+                        }
+                    case (int)HotkeyOptions.SwapMonitor:
+                        {
+                            Debug.Write("SwapMonitor Hotkey pressed");
 
-                if (window.Visibility == Visibility.Visible)
-                {
-                    window.Visibility = Visibility.Hidden;
+                            break;
+                        }
+                    
                 }
-                else
-                {
-                    window.Visibility = Visibility.Visible;
-                }
-                
+
                 handled = true;
             }
 
             return IntPtr.Zero;
         }
-
     }
 }

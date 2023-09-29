@@ -55,6 +55,13 @@
             </Style.Triggers>
         </Style>
 
+        <Style TargetType="Label"
+               x:Key="SettingsLabel">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
         <!-- List Box -->
         <Style TargetType="ListBox">
             <Setter Property="BorderBrush" Value="{StaticResource BackgroundGray}"/>
@@ -113,9 +120,6 @@
             </Style.Triggers>
         </Style>
 
-
-
-
         <!-- Default Button -->
         <Style TargetType="Button">
             <Setter Property="Background" Value="{StaticResource BackgroundGray}"/>
@@ -133,6 +137,30 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{StaticResource MouseOverColour}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Default ToggleButton -->
+        <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderGray}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Background="{TemplateBinding Background}" BorderThickness="3,0,0,3" BorderBrush="{StaticResource BorderGray}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource MouseOverColour}"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="{StaticResource MouseOverColour}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -240,11 +268,6 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
-
-            <Setter Property="IsEnabled" Value="False"/>
-            <Setter Property="Visibility" Value="Hidden"/>
-
-
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">

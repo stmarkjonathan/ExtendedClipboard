@@ -30,7 +30,7 @@
                 </Grid.RowDefinitions>
                 <Button x:Name="settingsButton" 
                     Content="Settings"
-                    Style="{StaticResource SettingsButton}"/>
+                    Style="{StaticResource SettingsButton}" Click="settingsButton_Click"/>
 
                 <Button x:Name="minimizeButton" 
                     Grid.Column="2"
