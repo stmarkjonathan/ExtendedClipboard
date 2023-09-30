@@ -95,6 +95,7 @@
                                      BorderBrush="{StaticResource BorderGray}" 
                                      Background="Transparent"
                                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                     KeyDown="titleTextBox_KeyDown"
                                      Grid.ColumnSpan="3"/>
                                 <TextBlock x:Name="descTextBlock" 
                                        Grid.Row="1" 

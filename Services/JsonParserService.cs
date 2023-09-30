@@ -42,7 +42,7 @@ namespace ExtendedClipboard.Services
                         }
                     }
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     File.WriteAllText(clipboardFile, "[]");
                 }

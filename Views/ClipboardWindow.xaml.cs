@@ -93,5 +93,13 @@ namespace ExtendedClipboard
                 new Hotkey(this, 0, 0)
             };
         }
+
+        private void titleTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                ViewModel.SaveToJson();
+            }
+        }
     }
 }
