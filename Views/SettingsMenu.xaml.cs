@@ -75,6 +75,7 @@ namespace ExtendedClipboard.Views
                     case ModifierKeys.Alt:
                         {
                             targetButton.Content = $"Bind: Alt + {shortcutKey}";
+                            ViewModel.ChangeHotkey((int)ModifierKeys.Alt, vkey, buttonAction);
                             break;
                         }
 
@@ -82,6 +83,11 @@ namespace ExtendedClipboard.Views
 
                 targetButton.IsChecked = false;
             }
+        }
+
+        private void exitButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

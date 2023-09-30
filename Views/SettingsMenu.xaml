@@ -23,13 +23,20 @@
     BorderThickness="3" 
     BorderBrush="{StaticResource BorderGray}"
     Background="{StaticResource BackgroundGray}" 
-    CornerRadius="10">
+    CornerRadius="15">
         <DockPanel>
-            <Grid DockPanel.Dock="Top" Height="25">
-
-
-            </Grid>
-
+                <Border DockPanel.Dock="Top" BorderThickness="0,0,0,3" BorderBrush="{StaticResource BorderGray}">
+                <Grid Height="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Column="1" Content="X" Click="exitButton_Click" Style="{StaticResource MinimizeButton}"/>
+                </Grid>
+            </Border>
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -44,11 +51,11 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Label Style="{StaticResource SettingsLabel}" Content="Toggle Visibility Hotkey"></Label>
+                <Label Style="{StaticResource SettingsLabel}" Content="Toggle Visibility Hotkey" BorderBrush="{StaticResource BorderGray}"></Label>
                 <ToggleButton Grid.Column="2"
                     KeyDown="BindButton_KeyDown"
                     Tag="ToggleVisibility"
-                    Content="Bind: None"
+                    Content="Bind: Shift + F9"
                     Foreground="White">
                 </ToggleButton>
       

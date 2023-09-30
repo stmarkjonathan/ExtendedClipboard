@@ -55,11 +55,13 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Label-->
         <Style TargetType="Label"
                x:Key="SettingsLabel">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0,0,0,3"/>
         </Style>
 
         <!-- List Box -->
@@ -149,7 +151,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border Background="{TemplateBinding Background}" BorderThickness="3,0,0,3" BorderBrush="{StaticResource BorderGray}">
+                        <Border Background="{TemplateBinding Background}" BorderThickness="0,0,0,3" BorderBrush="{StaticResource BorderGray}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
