@@ -6,13 +6,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExtendedClipboard.Views"
         mc:Ignorable="d"
+        x:Name="settingsWindow"
         Title="SettingsMenu" 
         ResizeMode="NoResize"
         Topmost="true"
         WindowStyle="None"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
-        Height="225" 
+        Height="150" 
         Width="400"
         Style="{StaticResource ClipboardWindow}">
     <Window.Resources>
@@ -25,7 +26,7 @@
     Background="{StaticResource BackgroundGray}" 
     CornerRadius="15">
         <DockPanel>
-                <Border DockPanel.Dock="Top" BorderThickness="0,0,0,3" BorderBrush="{StaticResource BorderGray}">
+            <Border DockPanel.Dock="Top" BorderThickness="0,0,0,3" BorderBrush="{StaticResource BorderGray}">
                 <Grid Height="30">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10*"/>
@@ -43,22 +44,50 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
 
-                <Label Style="{StaticResource SettingsLabel}" Content="Toggle Visibility Hotkey" BorderBrush="{StaticResource BorderGray}"></Label>
-                <ToggleButton Grid.Column="2"
-                    KeyDown="BindButton_KeyDown"
-                    Tag="ToggleVisibility"
-                    Content="Bind: Shift + F9"
-                    Foreground="White">
-                </ToggleButton>
-      
+                <ListBox
+                    Grid.Column="0"
+                    Grid.RowSpan="5"
+                    Background="Transparent">
+                    <ListBoxItem>
+                        <Label
+                            Height="40"
+                            Style="{StaticResource SettingsLabel}" 
+                            Content="Toggle Visibility Hotkey" 
+                            BorderBrush="{StaticResource BorderGray}">
+                        </Label>
+                    </ListBoxItem>
+                    
+                </ListBox>
+
+                <ListBox
+                    Grid.Column="1"
+                    Grid.RowSpan="5"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    d:ItemsSource="{d:SampleData ItemCount=2}" 
+                    ItemsSource="{Binding DataContext.Hotkeys, ElementName=settingsWindow, Mode=OneWay}"
+                    Background="Transparent">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ToggleButton  
+                                Height="40"
+                                KeyDown="BindButton_KeyDown"
+                                Tag="ToggleVisibility"
+                                Foreground="White">
+                                <ToggleButton.Content>
+                                    <MultiBinding>
+                                        <MultiBinding.Converter>
+                                            <c:HotkeyConverter/>
+                                        </MultiBinding.Converter>
+                                        <Binding Path="Modifier"/>
+                                        <Binding Path="PressedKey"/>
+                                    </MultiBinding>
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
             </Grid>
         </DockPanel>
     </Border>

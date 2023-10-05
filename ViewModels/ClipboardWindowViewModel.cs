@@ -24,10 +24,6 @@ namespace ExtendedClipboard.ViewModels
         {
             get
             {
-                if (_clipboards == null)
-                {
-                    _clipboards = new ObservableCollection<ClipboardClass>();
-                }
                 return _clipboards;
             }
             set
@@ -51,8 +47,20 @@ namespace ExtendedClipboard.ViewModels
             }
         }
 
+        private List<Hotkey> _hotkeys;
 
-        public List<Hotkey> Hotkeys;
+        public List<Hotkey> Hotkeys
+        {
+            get
+            {
+                return _hotkeys;
+            }
+            set
+            {
+                _hotkeys = value;
+                OnPropertyChanged("Hotkeys");
+            }
+        }
 
         public enum HotkeyOptions
         {
@@ -60,11 +68,14 @@ namespace ExtendedClipboard.ViewModels
             Test = 1
         }
 
-        private JsonSerializeService _jsonSerialize = new JsonSerializeService();
+        private JsonSerializeService<ClipboardClass> _serializeClipboard = new JsonSerializeService<ClipboardClass>();
+        private JsonSerializeService<Hotkey> _serializeHotkey = new JsonSerializeService<Hotkey>();
+
         private JsonParserService _jsonParse = new JsonParserService();
+
         public RelayCommand AddCommand => new RelayCommand(execute => AddClipboard());
 
-        public RelayCommand SaveToJsonCommand => new RelayCommand(execute => SaveToJson());
+        public RelayCommand SaveToJsonCommand => new RelayCommand(execute => SaveClipboardsToJson());
 
         public RelayCommand ClearCommand => new RelayCommand(execute => ClearClipboards());
 
@@ -80,8 +91,8 @@ namespace ExtendedClipboard.ViewModels
         }
         public ClipboardWindowViewModel()
         {
-           Clipboards = _jsonParse.ParseJson(Clipboards);
-            
+            Clipboards = _jsonParse.ParseClipboardFile(@"C:\ExtendedClipboard\clipboards.txt");
+            Hotkeys = _jsonParse.ParseHotkeyFile(@"C:\ExtendedClipboard\hotkeys.txt");
         }
 
         private void CopyFromClipboard(ClipboardClass listItem)
@@ -94,7 +105,7 @@ namespace ExtendedClipboard.ViewModels
 
                 if(Clipboards != null)
                 {
-                    SaveToJson();
+                    SaveClipboardsToJson();
                 }
             }    
         }
@@ -102,7 +113,7 @@ namespace ExtendedClipboard.ViewModels
         private void ClearClipboards()
         {
             Clipboards.Clear();
-            SaveToJson();
+            SaveClipboardsToJson();
         }
 
         private void RetrieveClipboard(ClipboardClass listItem)
@@ -123,27 +134,41 @@ namespace ExtendedClipboard.ViewModels
                 if (clipboardID == clip.ClipboardID)
                 {
                     Clipboards.Remove(clip);
-                    SaveToJson();
+                    SaveClipboardsToJson();
                     return;
                 }
             }
         }
-        public void SaveToJson()
+        public void SaveClipboardsToJson()
         {
-                _jsonSerialize.ClipboardList.Clear();
+                _serializeClipboard.TargetList.Clear();
 
                 foreach (var clipboard in Clipboards)
                 {
                     if (!String.IsNullOrWhiteSpace(clipboard.ClipboardData))
-                        _jsonSerialize.ClipboardList.Add(clipboard);
+                    _serializeClipboard.TargetList.Add(clipboard);
                 }
 
-                _jsonSerialize.SerializeData();
+            _serializeClipboard.SerializeData(@"C:\ExtendedClipboard\", "clipboards.txt");
             
         }
 
+        public void SaveHotkeysToJson()
+        {
 
-        public void ChangeHotkey(int modifier, int pressedKey, string action)
+            _serializeHotkey.TargetList.Clear();
+
+            foreach(var hotkey in Hotkeys)
+            {
+                _serializeHotkey.TargetList.Add(hotkey);
+            }
+
+            _serializeHotkey.SerializeData(@"C:\ExtendedClipboard\", "hotkeys.txt");
+
+        }
+
+
+        public void ChangeHotkey(int modifier, Key pressedKey, string action)
         {
 
 

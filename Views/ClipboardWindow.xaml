@@ -76,7 +76,7 @@
             MaxWidth="500" SelectionChanged="clipboardList_SelectionChanged" Height="Auto">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border CornerRadius="5" BorderBrush="{StaticResource BorderGray}" BorderThickness="3">
+                        <Border CornerRadius="5" BorderBrush="{StaticResource BorderGray}" BorderThickness="3" Margin="0,0,0,5">
                             <Grid Height="134" MaxWidth="500">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>

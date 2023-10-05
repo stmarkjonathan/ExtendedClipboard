@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace ExtendedClipboard.Services
 {
@@ -19,10 +22,11 @@ namespace ExtendedClipboard.Services
             PropertyNameCaseInsensitive = true,
         };
 
-        public ObservableCollection<ClipboardClass> ParseJson(ObservableCollection<ClipboardClass> clipList)
+        public ObservableCollection<ClipboardClass> ParseClipboardFile(string clipboardFile)
         {
             List<ClipboardClass> clipboards = new List<ClipboardClass>();
-            string clipboardFile = @"C:\ExtendedClipboard\clipboards.txt";
+            ObservableCollection<ClipboardClass> returnedList = new ObservableCollection<ClipboardClass>();
+
 
             if (File.Exists(clipboardFile))
             {
@@ -38,11 +42,11 @@ namespace ExtendedClipboard.Services
                     {
                         foreach (var clipboard in clipboards)
                         {
-                            clipList.Add(clipboard);
+                            returnedList.Add(clipboard);
                         }
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     File.WriteAllText(clipboardFile, "[]");
                 }
@@ -51,8 +55,59 @@ namespace ExtendedClipboard.Services
 
             }
 
-            return clipList;
+            return returnedList;
+        }
 
+        public List<Hotkey> ParseHotkeyFile(string filePath)
+        {
+            List<Hotkey> hotkeyList;
+
+            List<Hotkey> returnedList = new List<Hotkey>();
+
+            if (File.Exists(filePath))
+            {
+                File.SetAttributes(filePath, FileAttributes.Normal);
+
+                string jsonString = File.ReadAllText(filePath);
+
+                try
+                {
+                    hotkeyList = JsonSerializer.Deserialize<List<Hotkey>>(jsonString, _options);
+
+                    if (hotkeyList != null)
+                    {
+                        foreach (var hotkey in hotkeyList)
+                        {
+                            returnedList.Add(new Hotkey(hotkey.Modifier, hotkey.PressedKey, hotkey.Option));
+                        }
+                    }
+
+                    if (!returnedList.Any())
+                    {
+                        returnedList = InstantiateHotkeys();
+                    }
+                }
+                catch (Exception e)
+                {
+                    returnedList = InstantiateHotkeys();
+                }
+
+                File.SetAttributes(filePath, FileAttributes.ReadOnly);
+
+            }
+            else
+            {
+                returnedList = InstantiateHotkeys();
+            }
+            return returnedList;
+        }
+
+        private List<Hotkey> InstantiateHotkeys()
+        {
+            return new List<Hotkey>
+                    {
+                        new Hotkey((int)ModifierKeys.Control, Key.F9, 0),
+                    };
         }
 
     }

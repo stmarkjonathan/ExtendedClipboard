@@ -40,7 +40,7 @@ namespace ExtendedClipboard.Views
         public SettingsMenu(ClipboardWindowViewModel viewModel)
         {
             InitializeComponent();
-            ViewModel = viewModel;
+            DataContext = ViewModel = viewModel;
         }
 
         private void BindButton_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -49,7 +49,6 @@ namespace ExtendedClipboard.Views
             string buttonAction = targetButton.Tag.ToString();
 
             Key shortcutKey = (e.Key == Key.System ? e.SystemKey : e.Key);
-            int vkey = KeyInterop.VirtualKeyFromKey(shortcutKey);
 
             //ignore all modifier keys
             if(Enum.IsDefined(typeof(_modifierKeys), (int)shortcutKey)){
@@ -62,31 +61,29 @@ namespace ExtendedClipboard.Views
                 {
                     case ModifierKeys.Shift:
                         {
-                            targetButton.Content = $"Bind: Shift + {shortcutKey}";
-                            ViewModel.ChangeHotkey((int)ModifierKeys.Shift, vkey, buttonAction);
+                            ViewModel.ChangeHotkey((int)ModifierKeys.Shift, shortcutKey, buttonAction);
                             break;
                         }
                     case ModifierKeys.Control:
                         {
-                            targetButton.Content = $"Bind: Ctrl + {shortcutKey}";
-                            ViewModel.ChangeHotkey((int)ModifierKeys.Control, vkey, buttonAction);
+                            ViewModel.ChangeHotkey((int)ModifierKeys.Control, shortcutKey, buttonAction);
                             break;
                         }
                     case ModifierKeys.Alt:
                         {
-                            targetButton.Content = $"Bind: Alt + {shortcutKey}";
-                            ViewModel.ChangeHotkey((int)ModifierKeys.Alt, vkey, buttonAction);
+                            ViewModel.ChangeHotkey((int)ModifierKeys.Alt, shortcutKey, buttonAction);
                             break;
                         }
 
                 }
-
                 targetButton.IsChecked = false;
+                ViewModel.SaveHotkeysToJson();
             }
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.SaveHotkeysToJson();
             this.Close();
         }
     }

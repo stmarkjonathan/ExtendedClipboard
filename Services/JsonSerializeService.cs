@@ -10,24 +10,24 @@ using ExtendedClipboard.ViewModels;
 
 namespace ExtendedClipboard.Services
 {
-    public class JsonSerializeService
+    public class JsonSerializeService<T>
     {
 
-        private List<ClipboardClass> _clipboardList;
+        private List<T> _targetList;
 
-        public List<ClipboardClass> ClipboardList
+        public List<T> TargetList
         {
-            get 
-            {   
-                if(_clipboardList == null)
+            get
+            {
+                if (_targetList == null)
                 {
-                    _clipboardList = new List<ClipboardClass>();
+                    _targetList = new List<T>();
                 }
-                return _clipboardList; 
+                return _targetList;
             }
             set
             {
-                _clipboardList = value;
+                _targetList = value;
             }
         }
 
@@ -36,14 +36,13 @@ namespace ExtendedClipboard.Services
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true,
         };
-        public void SerializeData()
+        public void SerializeData(string directory, string filePath)
         {
-            string directory = @"C:\ExtendedClipboard\";
             Directory.CreateDirectory(directory);
-            string path = System.IO.Path.Combine(directory, "clipboards.txt");
-            var result = JsonSerializer.SerializeToUtf8Bytes(ClipboardList, _options);
+            string path = System.IO.Path.Combine(directory, filePath);
+            var result = JsonSerializer.SerializeToUtf8Bytes(_targetList, _options);
 
-            if(File.Exists(path))
+            if (File.Exists(path))
             {
                 File.SetAttributes(path, FileAttributes.Normal);
                 File.WriteAllBytes(path, result);
@@ -58,7 +57,7 @@ namespace ExtendedClipboard.Services
 
         }
 
-        
+
 
     }
 }

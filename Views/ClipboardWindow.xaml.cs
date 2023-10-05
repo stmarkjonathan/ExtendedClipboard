@@ -25,7 +25,7 @@ namespace ExtendedClipboard
             var screenArea = SystemParameters.WorkArea;
             this.Left = screenArea.Right - this.Width;
             this.Top = screenArea.Bottom - this.Height;
-            DataContext = ViewModel = new ClipboardWindowViewModel();
+
         }
 
 
@@ -36,7 +36,7 @@ namespace ExtendedClipboard
 
         private void minimizeButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SaveToJson();
+            ViewModel.SaveClipboardsToJson();
             Visibility = Visibility.Hidden;
         }
 
@@ -56,7 +56,8 @@ namespace ExtendedClipboard
 
         private void ClipboardDisplay_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ViewModel.SaveToJson();
+            ViewModel.SaveClipboardsToJson();
+            ViewModel.SaveHotkeysToJson();
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -87,18 +88,15 @@ namespace ExtendedClipboard
 
         private void ClipboardDisplay_Loaded(object sender, RoutedEventArgs e)
         {
-            ViewModel.Hotkeys = new List<Hotkey>
-            {
-                new Hotkey(this, (int)ModifierKeys.Control, 0x78),
-                new Hotkey(this, 0, 0)
-            };
+            Hotkey.InitializeWindow(this);
+            DataContext = ViewModel = new ClipboardWindowViewModel();
         }
 
         private void titleTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
             {
-                ViewModel.SaveToJson();
+                ViewModel.SaveClipboardsToJson();
             }
         }
     }
