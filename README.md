@@ -12,7 +12,8 @@ Hotkey to toggle visibility of the app is set to CTRL + F9 by default. This can 
 
 Written in C#, and compiled in .NET 6.0.
 #
-![image](https://github.com/stmarkjonathan/ExtendedClipboard/assets/98546985/b3c2736a-962d-4b6a-ba22-93608461d62f)
+![image](https://github.com/stmarkjonathan/ExtendedClipboard/assets/98546985/115d5320-a38f-49f8-a7ca-325e23683ec7)
+
 
 
 
