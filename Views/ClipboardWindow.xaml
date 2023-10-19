@@ -53,7 +53,9 @@
             Command="{Binding AddCommand, Mode=OneWay}"/>
 
             <tb:TaskbarIcon x:Name="taskbarMenu"
-                            IconSource="/Resources/Icons/clipboard.ico">
+                            IconSource="/Resources/Icons/clipboard.ico"
+                            ToolTip="ExtendedClipboard"
+                            ToolTipText="ExtendedClipboard">
                 
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>
