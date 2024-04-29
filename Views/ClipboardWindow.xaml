@@ -92,18 +92,23 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBox x:Name="titleTextBox" 
-                                     Grid.Row="0" 
+                                     Grid.Row="0"                                      
+                                     Grid.ColumnSpan="3"
                                      Style="{StaticResource ClipboardTitle}" 
                                      BorderBrush="{StaticResource BorderGray}" 
                                      Background="Transparent"
                                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                     KeyDown="titleTextBox_KeyDown"
-                                     Grid.ColumnSpan="3"/>
+                                     KeyDown="titleTextBox_KeyDown"/>
                                 <TextBlock x:Name="descTextBlock" 
                                        Grid.Row="1" 
+                                       Grid.ColumnSpan="3"
                                        Style="{StaticResource ClipboardText}" 
-                                       Text="{Binding Desc, Mode=OneWay}" 
-                                       Grid.ColumnSpan="3"/>
+                                       Text="{Binding Desc, Mode=OneWay}"/>
+
+                                <Image x:Name="descImage"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="3" 
+                                    Source="{Binding ClipboardData.ImageData, Mode=OneWay}"/>
 
                                 <Button x:Name="saveButton" Grid.Row="2" 
                                     Style="{StaticResource SaveButton}" 

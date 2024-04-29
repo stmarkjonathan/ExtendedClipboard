@@ -1,13 +1,16 @@
 ﻿using ExtendedClipboard.Models;
 using ExtendedClipboard.ViewModels;
 using ExtendedClipboard.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 
 namespace ExtendedClipboard
 {
@@ -26,6 +29,8 @@ namespace ExtendedClipboard
             this.Left = screenArea.Right - this.Width;
             this.Top = screenArea.Bottom - this.Height;
 
+           
+
         }
 
 
@@ -38,6 +43,8 @@ namespace ExtendedClipboard
         {
             ViewModel.SaveClipboardsToJson();
             Visibility = Visibility.Hidden;
+
+
         }
 
         private void clearButton_Click(object sender, RoutedEventArgs e)
@@ -83,6 +90,7 @@ namespace ExtendedClipboard
             newWindow.Owner = this;
             
             newWindow.ShowDialog();
+
 
         }
 

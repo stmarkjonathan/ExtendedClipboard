@@ -22,10 +22,10 @@ namespace ExtendedClipboard.Services
             PropertyNameCaseInsensitive = true,
         };
 
-        public ObservableCollection<ClipboardClass> ParseClipboardFile(string clipboardFile)
+        public ObservableCollection<ClipboardItem> ParseClipboardFile(string clipboardFile)
         {
-            List<ClipboardClass> clipboards = new List<ClipboardClass>();
-            ObservableCollection<ClipboardClass> returnedList = new ObservableCollection<ClipboardClass>();
+            List<ClipboardItem> clipboards = new List<ClipboardItem>();
+            ObservableCollection<ClipboardItem> returnedList = new ObservableCollection<ClipboardItem>();
 
 
             if (File.Exists(clipboardFile))
@@ -36,7 +36,7 @@ namespace ExtendedClipboard.Services
 
                 try
                 {
-                    clipboards = JsonSerializer.Deserialize<List<ClipboardClass>>(jsonString, _options);
+                    clipboards = JsonSerializer.Deserialize<List<ClipboardItem>>(jsonString, _options);
 
                     if (clipboards != null)
                     {

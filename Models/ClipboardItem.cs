@@ -1,21 +1,24 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace ExtendedClipboard.Models
 {
-    public class ClipboardClass : INotifyPropertyChanged
+    public class ClipboardItem : INotifyPropertyChanged
     {
         static private int _clipboardCount;
         private int _clipboardID;
         private string _name;
         private string _desc;
-        private string _ClipboardData;
+        private ClipboardData _clipboardData = new ClipboardData();
 
         public int ClipboardID
         {
@@ -43,32 +46,25 @@ namespace ExtendedClipboard.Models
                 OnPropertyChanged("Desc");
             }
         }
-        public string ClipboardData
+
+        public ClipboardData ClipboardData
         {
-            get { return _ClipboardData; }
-            set
+            get
             {
-                _ClipboardData = value;
-                OnPropertyChanged("ClipboardData");
+                return _clipboardData;
             }
         }
 
-        public ClipboardClass()
+        public ClipboardItem()
         {
             _clipboardID = ++_clipboardCount;
-            _name = "New Clipboard";
+            _name = "New Clipboard " + _clipboardCount;
             _desc = "Click 'Save' to save data from your clipboard";
-            _ClipboardData = "";
+            _clipboardData.TextData = "";
         }
 
-        public void setData(string clipboardData)
-        {
-            if (!String.IsNullOrWhiteSpace(clipboardData))
-            {
-                _ClipboardData = clipboardData;
-                Desc = clipboardData.Trim();
-            }
-        }
+
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
