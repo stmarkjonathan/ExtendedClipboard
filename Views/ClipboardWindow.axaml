@@ -1,0 +1,82 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ExtendedClipboardAvalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Name="ClipboardDisplay"
+        x:Class="ExtendedClipboardAvalonia.Views.ClipboardWindow"
+        x:DataType="vm:ClipboardWindowViewModel"
+        SystemDecorations="None"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="ExtendedClipboardAvalonia"
+        Width="375"
+        Height="550"
+        Background="Transparent"
+        TransparencyBackgroundFallback="Transparent"
+        Topmost="True"
+        Opened="ClipboardDisplay_Opened">  
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:ClipboardWindowViewModel/>
+    </Design.DataContext>
+
+  <Border
+      Background="{StaticResource SystemRegionColor}"
+      BorderThickness="0,1,0,0"
+      CornerRadius="15,15, 0, 0">
+
+    <DockPanel>
+      <Grid ShowGridLines="True" DockPanel.Dock="Top" Height="75">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="7*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="settingsButton"
+            Content="*"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            ToolTip.Tip="Settings"/>
+
+        <Button x:Name="minimizeButton"
+            Grid.Column="2"
+            Content="X"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            ToolTip.Tip="Minimize"/>
+
+        <Button x:Name="clearButton"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            Grid.Row="1"
+            Content="Clear all clipboards"
+            Grid.ColumnSpan="3"/>
+      </Grid>
+
+      <Button
+            DockPanel.Dock="Bottom"
+            HorizontalAlignment="Stretch"
+            Content="Add a new clipboard"/>
+
+      <ListBox>
+        e
+      </ListBox>
+
+              
+      
+      
+      
+    </DockPanel>
+  
+  </Border>
+
+
+
+</Window>
