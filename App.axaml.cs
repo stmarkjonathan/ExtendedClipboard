@@ -9,6 +9,7 @@ namespace ExtendedClipboardAvalonia;
 
 public partial class App : Application
 {
+    public static TopLevel TopLevel { get; private set; }
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -22,7 +23,10 @@ public partial class App : Application
             {
                 DataContext = new ClipboardWindowViewModel(),
             };
+
+            TopLevel = TopLevel.GetTopLevel(desktop.MainWindow);
         }
+
 
         base.OnFrameworkInitializationCompleted();
     }

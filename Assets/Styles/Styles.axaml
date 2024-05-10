@@ -1,13 +1,30 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="/Assets/Styles/ResourceDictionary.axaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
+  
     <Design.PreviewWith>
         <Border
                 Height="500"
                 Width="700">
-
+          <StackPanel>
           <Button>
             Test Button
           </Button>
+
+          <ListBox>
+            <Button>Listbox Button</Button>
+          </ListBox>
+
+            <Button Classes="ClipboardItem">Clipboard Item Button</Button>
+          </StackPanel>
+
+         
         </Border>
 
     </Design.PreviewWith>
@@ -17,6 +34,18 @@
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="BorderBrush" Value="#444447"/>
   </Style>
+
+  <Style Selector="Button.ClipboardItem">
+    <Setter Property="CornerRadius" Value="0"/>
+  </Style>
+   
     
+
+    <Style Selector="ListBox">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderBrush" Value="#444447"/>
+    </Style>
+
 </Styles>
