@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -33,13 +34,13 @@ namespace ExtendedClipboardAvalonia.Models
 
         }
 
-        //private StringCollection? _fileData;
+        private StringCollection? _fileData;
 
-        //public StringCollection? FileData
-        //{
-        //    get { return _fileData; }
-        //    set { _fileData = value; }
-        //}
+        public StringCollection? FileData
+        {
+            get { return _fileData; }
+            set { _fileData = value; }
+        }
 
         public (object? data, string? format) GetData()
         {

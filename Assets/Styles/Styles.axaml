@@ -6,6 +6,8 @@
         <ResourceInclude Source="/Assets/Styles/ResourceDictionary.axaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
+    
+    <SolidColorBrush x:Key="MouseOverColour" Color="#444447" Opacity="0.5"/>
   </Styles.Resources>
   
     <Design.PreviewWith>
@@ -22,12 +24,18 @@
           </ListBox>
 
             <Button Classes="ClipboardItem">Clipboard Item Button</Button>
+
+            <TextBox> Text Box</TextBox>
           </StackPanel>
 
          
         </Border>
 
     </Design.PreviewWith>
+
+  <Style Selector="ListBoxItem:selected /template/ ContentPresenter, ListBoxItem:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent"/>
+  </Style>
 
 
   <Style Selector="Button">
@@ -37,10 +45,34 @@
     <Setter Property="BorderBrush" Value="#444447"/>
   </Style>
 
-  <Style Selector="Button.ClipboardItem">
-    <Setter Property="CornerRadius" Value="0"/>
+  <Style Selector="Button:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource MouseOverColour}"/>
+    <Setter Property="BorderBrush" Value="#444447"/>
   </Style>
-   
+
+  <Style Selector="Button.ClipboardItem">
+    <Setter Property="CornerRadius" Value="0"/> 
+  </Style>
+
+  <Style Selector="TextBox">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="#444447"/>
+  </Style>
+
+  <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+    <Setter Property="BorderBrush" Value="#444447"/>
+  </Style>
+
+  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+    <Setter Property="BorderBrush" Value="#444447"/>
+    <Setter Property="Background" Value="Transparent"/>
+  </Style>
+
+  <Style Selector="TextBlock">
+    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+    <Setter Property="TextWrapping" Value="Wrap"/>
+    <Setter Property="Padding" Value="5,5,0,0"/> 
+  </Style>
     
 
     <Style Selector="ListBox">

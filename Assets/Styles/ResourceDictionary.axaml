@@ -1,6 +1,29 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+  <Design.PreviewWith>
+    <Border
+            Height="500"
+            Width="700">
+      <StackPanel>
+        <Button>
+          Test Button
+        </Button>
+
+        <ListBox>
+          <Button>Listbox Button</Button>
+        </ListBox>
+
+        <Button Classes="ClipboardItem">Clipboard Item Button</Button>
+
+        <TextBox> Text Box</TextBox>
+      </StackPanel>
+
+
+    </Border>
+
+  </Design.PreviewWith>
+
   <ResourceDictionary.ThemeDictionaries>
     
     <ResourceDictionary x:Key='Light'>
@@ -13,6 +36,7 @@
       <SolidColorBrush x:Key='SystemRegionColor' Color='#FF1A1A1A'></SolidColorBrush>
       <SolidColorBrush x:Key='SystemRegionBrush' Color='#FF1A1A1A'></SolidColorBrush>
       <SolidColorBrush x:Key='BorderColor' Color='#FF444447'></SolidColorBrush>
+      <SolidColorBrush x:Key='TextControlBackgroundPointerOver' Color='Transparent'/>
     </ResourceDictionary>
   </ResourceDictionary.ThemeDictionaries>
 

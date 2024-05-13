@@ -1,7 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
+using ExtendedClipboardAvalonia.ViewModels;
 using System.Diagnostics;
 
 namespace ExtendedClipboardAvalonia.Views;
@@ -20,6 +22,16 @@ public partial class ClipboardWindow : Window
         Position = new PixelPoint(
             screenSize.Width - windowSize.Width,
             screenSize.Height - windowSize.Height);
+    }
+
+    protected void TextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            var ViewModel = DataContext as ClipboardWindowViewModel;
+
+            ViewModel.SaveClipboardsToJson();
+        }
     }
 
 }

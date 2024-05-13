@@ -2,7 +2,9 @@
 using Avalonia.Input.Platform;
 using Avalonia.Remote.Protocol.Viewport;
 using ExtendedClipboardAvalonia.Models;
+using ExtendedClipboardAvalonia.Services;
 using ReactiveUI;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -14,6 +16,8 @@ namespace ExtendedClipboardAvalonia.ViewModels;
 
 public class ClipboardWindowViewModel : ViewModelBase
 {
+
+    private JsonSerializeService<ClipboardItem> _serializeClipboard = new JsonSerializeService<ClipboardItem>();
 
     private ObservableCollection<ClipboardItem> _clipboards;
     public ObservableCollection<ClipboardItem> Clipboards
@@ -43,6 +47,7 @@ public class ClipboardWindowViewModel : ViewModelBase
         }
     }
 
+
     #region Commands
     public ReactiveCommand<Unit, Unit> AddCommand { get; }
     public ReactiveCommand<Unit, Unit> ClearCommand { get; }
@@ -56,9 +61,9 @@ public class ClipboardWindowViewModel : ViewModelBase
 
     public ClipboardWindowViewModel()
     {
-        _clipboards = new ObservableCollection<ClipboardItem>();
+        _clipboards = JsonParserService.ParseClipboardFile(@"C:\ExtendedClipboard\clipboards.txt");
         AddCommand = ReactiveCommand.Create(AddClipboard);
-        ClearCommand = ReactiveCommand.Create(ClearClipboards);
+        ClearCommand = ReactiveCommand.Create(ClearClipboardList);
         SaveCommand = ReactiveCommand.CreateFromTask<ClipboardItem>(CopyFromSystemClipboard);
         RetrieveCommand = ReactiveCommand.CreateFromTask<ClipboardItem>(RetrieveFromClipboardItem);
         DeleteCommand = ReactiveCommand.Create<ClipboardItem>(DeleteClipboardItem);
@@ -95,6 +100,7 @@ public class ClipboardWindowViewModel : ViewModelBase
                     listItem.Desc = clipText;
                     listItem.ClipboardData.TextData = clipText;
                     listItem.ClipboardData.CurrentType = ClipboardData.ClipboardDataTypes.Text;
+                    SaveClipboardsToJson();
                 }
             }
 
@@ -158,16 +164,30 @@ public class ClipboardWindowViewModel : ViewModelBase
             if (clipboardID == clip.ClipboardID)
             {           
                 Clipboards.Remove(clip);
-               //SaveClipboardsToJson();
+               SaveClipboardsToJson();
                 return;
             }
         }
     }
 
-    private void ClearClipboards()
+    private void ClearClipboardList()
     {
         Clipboards.Clear();
-        //SaveClipboardsToJson();
+        SaveClipboardsToJson();
+    }
+
+    public void SaveClipboardsToJson()
+    {
+        _serializeClipboard.TargetList.Clear();
+
+         foreach (var clipboard in Clipboards)
+         {
+             if (!String.IsNullOrWhiteSpace(clipboard.ClipboardData.TextData))
+             _serializeClipboard.TargetList.Add(clipboard);
+         }
+
+        _serializeClipboard.SerializeData(@"C:\ExtendedClipboard\", "clipboards.txt");
+
     }
 
 

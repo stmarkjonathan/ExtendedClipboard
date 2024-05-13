@@ -11,7 +11,7 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="ExtendedClipboardAvalonia"
         Width="375"
-        Height="550"
+        Height="755"
         Background="Transparent"
         TransparencyBackgroundFallback="Transparent"
         Topmost="True"
@@ -88,10 +88,15 @@
                 <TextBox x:Name="titleTextBox"
                      Grid.Row="0"
                      Grid.ColumnSpan="3"
-                     Background="Transparent"/>
+                     Height="15"
+                     BorderThickness="0,0,0,3"
+                     CornerRadius="0"
+                     Background="Transparent"
+                     Text="{Binding Name}"
+                     KeyDown="TextBox_KeyDown"/>
                 
                 <TextBlock x:Name="descTextBlock"
-                       Height="100"
+                       Height="125"
                        Grid.Row="1"                          
                        Grid.ColumnSpan="3"
                        Text="{Binding Desc}"/>
