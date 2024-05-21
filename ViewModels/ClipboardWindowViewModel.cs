@@ -78,11 +78,9 @@ public class ClipboardWindowViewModel : ViewModelBase
 
     private async Task CopyFromSystemClipboard(ClipboardItem listItem)
     {
+  
 
         Debug.Write("COPYING FROM CLIPBOARD...\n");
-
-        //clear clipboard item description, in case we want to display something other than text, preventing overlap
-        listItem.Desc = "";
 
         IClipboard clipboard = App.TopLevel.Clipboard;
 

@@ -15,7 +15,8 @@
         Background="Transparent"
         TransparencyBackgroundFallback="Transparent"
         Topmost="True"
-        Opened="ClipboardDisplay_Opened">  
+        Opened="ClipboardDisplay_Opened"
+        Closed="Window_Closed">  
 
     <Design.DataContext>
         <vm:ClipboardWindowViewModel/>
@@ -38,17 +39,23 @@
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button x:Name="settingsButton"
+            Classes="noborder"
             Content="*"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            ToolTip.Tip="Settings"/>
+            ToolTip.Tip="Settings"
+            BorderBrush="Transparent"
+            CornerRadius="15,0,0,0"/>
 
         <Button x:Name="minimizeButton"
+            Classes="noborder"
             Grid.Column="2"
             Content="X"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            ToolTip.Tip="Minimize"/>
+            ToolTip.Tip="Minimize"
+            BorderBrush="Transparent"
+            CornerRadius="0,15,0,0"/>
 
         <Button x:Name="clearButton"
             Grid.Row="1"           
@@ -69,7 +76,7 @@
             BorderThickness="0,2,0,0"
             CornerRadius="0"/>
 
-      <ListBox x:Name="clipboardList" ItemsSource="{Binding Clipboards}">
+      <ListBox x:Name="clipboardList" ItemsSource="{Binding Clipboards}" SelectedItem="{Binding SelectedClipboard}">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <Border BorderBrush="#FF444447" CornerRadius="5" BorderThickness="3" Margin="0,0,0,5">

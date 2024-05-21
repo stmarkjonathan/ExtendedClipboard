@@ -1,7 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Avalonia.Win32.Input;
 using ExtendedClipboardAvalonia.ViewModels;
 using ExtendedClipboardAvalonia.Views;
 using System;
@@ -58,4 +60,6 @@ public partial class App : Application
         }
         
     }
+
+
 }

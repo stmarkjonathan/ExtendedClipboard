@@ -46,15 +46,20 @@ namespace ExtendedClipboardAvalonia.Models
 
         public ClipboardData ClipboardData
         {
+
             get
             {
                 return _clipboardData;
+            }
+            set
+            {
+                _clipboardData = value;
             }
         }
 
         public ClipboardItem()
         {
-            _clipboardID = ++_clipboardCount;
+            _clipboardID = _clipboardCount++;
             _name = "New Clipboard " + _clipboardCount;
             _desc = "Click 'Save' to save data from your clipboard";
             _clipboardData.TextData = "";
