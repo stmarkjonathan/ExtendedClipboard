@@ -8,13 +8,13 @@
         x:Class="ExtendedClipboardAvalonia.Views.ClipboardWindow"
         x:DataType="vm:ClipboardWindowViewModel"
         SystemDecorations="None"
-        Icon="/Assets/avalonia-logo.ico"
         Title="ExtendedClipboardAvalonia"
         Width="375"
         Height="755"
         Background="Transparent"
         TransparencyBackgroundFallback="Transparent"
         Topmost="True"
+        ShowInTaskbar="False"
         Opened="ClipboardDisplay_Opened"
         Closed="Window_Closed">  
 
@@ -145,15 +145,6 @@
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
-
-              
-      
-      
-      
-    </DockPanel>
-  
+    </DockPanel>  
   </Border>
-
-
-
 </Window>

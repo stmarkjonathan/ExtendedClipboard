@@ -61,5 +61,31 @@ public partial class App : Application
         
     }
 
+    private void ToggleVisibility_Click(object? sender, System.EventArgs e)
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
 
+            var mainWindow = desktop.MainWindow;
+
+            if (mainWindow.IsVisible)
+            {
+                mainWindow.Hide();
+            }
+            else
+            {
+                mainWindow.Show();
+            }
+
+
+        }
+    }
+
+    private void ExitButton_Click(object? sender, System.EventArgs e)
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            desktop.Shutdown();
+        }
+    }
 }

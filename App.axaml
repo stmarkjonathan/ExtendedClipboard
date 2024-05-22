@@ -22,4 +22,19 @@
         <StyleInclude Source="Assets/Styles/Styles.axaml"/>
     </Application.Styles>
 
+  <TrayIcon.Icons>
+    <TrayIcons>
+      <TrayIcon Icon="/Assets/clipboard.ico"
+                ToolTipText="Extended Clipboard">
+        <TrayIcon.Menu>
+          <NativeMenu>
+            <NativeMenuItem Header="Toggle Visibility" Click="ToggleVisibility_Click"/>
+            <NativeMenuItem Header="Exit" Click="ExitButton_Click"/>
+          </NativeMenu>
+        </TrayIcon.Menu>
+      </TrayIcon>
+
+    </TrayIcons>
+  </TrayIcon.Icons>
+
 </Application>

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
+    <None Remove="Assets\clipboard.ico" />
     <AvaloniaResource Include="Assets\Styles\Styles.axaml" />
   </ItemGroup>
 
