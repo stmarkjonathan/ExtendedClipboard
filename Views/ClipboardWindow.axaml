@@ -16,7 +16,7 @@
         Topmost="True"
         ShowInTaskbar="False"
         Opened="ClipboardDisplay_Opened"
-        Closed="Window_Closed">  
+        Closed="ClipboardWindow_Closed">  
 
     <Design.DataContext>
         <vm:ClipboardWindowViewModel/>
@@ -45,7 +45,8 @@
             HorizontalAlignment="Stretch"
             ToolTip.Tip="Settings"
             BorderBrush="Transparent"
-            CornerRadius="15,0,0,0"/>
+            CornerRadius="15,0,0,0"
+            Click="SettingsButton_Click"/>
 
         <Button x:Name="minimizeButton"
             Classes="noborder"

@@ -4,6 +4,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
 using Avalonia.Win32.Input;
+using ExtendedClipboardAvalonia.Models;
 using ExtendedClipboardAvalonia.ViewModels;
 using System;
 using System.Diagnostics;
@@ -16,8 +17,7 @@ namespace ExtendedClipboardAvalonia.Views;
 public partial class ClipboardWindow : Window
 {
 
-    [DllImport("user32.dll")]
-    private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+    private HotkeyController _hotkeyController;
 
     public ClipboardWindow()
     {
@@ -26,9 +26,17 @@ public partial class ClipboardWindow : Window
         if (!Design.IsDesignMode)
         {
             InitWndProc();
+
+            if(TryGetPlatformHandle() != null)
+            {
+                _hotkeyController = new HotkeyController(TryGetPlatformHandle().Handle);
+            }
+            else
+            {
+                Debug.Write("Could not receive window handle");
+            }           
         }
 
-       
     }
     private void ClipboardDisplay_Opened(object? sender, System.EventArgs e)
     {
@@ -37,39 +45,30 @@ public partial class ClipboardWindow : Window
 
         Position = new PixelPoint(
             screenSize.Width - windowSize.Width,
-        screenSize.Height - windowSize.Height);  
+        screenSize.Height - windowSize.Height);
     }
 
-    private void Window_Closed(object? sender, System.EventArgs e)
+    private void ClipboardWindow_Closed(object? sender, System.EventArgs e)
     {
-        var ViewModel = DataContext as ClipboardWindowViewModel;
-
-        ViewModel.SaveClipboardsToJson();
+        SaveClipboards();
     }
 
     protected void TextBox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
         {
-
-            var ViewModel = DataContext as ClipboardWindowViewModel;
-
-            ViewModel.SaveClipboardsToJson();
+            SaveClipboards();
         }
     }
 
     private void InitWndProc()
     {
         Win32Properties.AddWndProcHookCallback(this, WndProcHook);
-
-        RegisterHotKey(this.TryGetPlatformHandle().Handle, 1, (int)KeyModifiers.Control, KeyInterop.VirtualKeyFromKey(Key.F9));
     }
 
     private nint WndProcHook(nint hWnd, uint message, nint wParam, nint lParam, ref bool handled)
     {
-
-
-        if (message == 0x312) // WMHOTKEY
+        if (message == 0x312) // WM_HOTKEY
         {
             if (IsVisible)
             {
@@ -86,5 +85,18 @@ public partial class ClipboardWindow : Window
         return IntPtr.Zero;
     }
 
+    private void SaveClipboards()
+    {
+        var ViewModel = DataContext as ClipboardWindowViewModel;
 
+        if (ViewModel != null)
+        {
+            ViewModel.SaveClipboardsToJson();
+        }
+    }
+
+    private void SettingsButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        _hotkeyController.RebindHotkey(0, (int)KeyModifiers.Control, Key.F8); //hardcoded rebinding of hotkey
+    }
 }
